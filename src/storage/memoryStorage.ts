@@ -1,4 +1,4 @@
-import { StorageAdapter, Page } from './storage'
+import type { StorageAdapter, Page } from './storage'
 
 export function createMemoryStorage(seed: Page[] = []): StorageAdapter {
   const pages = new Map(seed.map((page) => [page.id, page]))

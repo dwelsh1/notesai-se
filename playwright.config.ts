@@ -12,9 +12,9 @@ export default defineConfig({
     video: 'retain-on-failure',
   },
   webServer: {
-    command: 'npm run dev',
+    command: 'npm run dev -- --host 127.0.0.1 --port 5173',
     url: 'http://localhost:5173',
-    reuseExistingServer: true,
+    reuseExistingServer: false,
     timeout: 120_000,
   },
 })

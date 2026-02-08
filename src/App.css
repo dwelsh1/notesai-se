@@ -43,6 +43,36 @@
   margin-bottom: 4px;
 }
 
+.sidebar__section input {
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #2b3545;
+  background: #0f1216;
+  color: #e6e9ef;
+}
+
+.sidebar__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.sidebar__page-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.sidebar__page-row a {
+  flex: 1;
+  color: #c6d0f5;
+}
+
 .sidebar__empty {
   color: #9aa4b2;
   font-size: 0.9rem;
@@ -51,4 +81,37 @@
 .app-main {
   flex: 1;
   padding: 24px;
+}
+
+.editor-toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.editor-shell {
+  position: relative;
+}
+
+.editor-shell .ProseMirror {
+  min-height: 240px;
+  padding: 12px;
+  border: 1px solid #2b3545;
+  border-radius: 8px;
+  background: #0f1216;
+  color: #e6e9ef;
+  outline: none;
+}
+
+.slash-menu {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: grid;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid #2b3545;
+  border-radius: 8px;
+  background: #151a21;
 }
