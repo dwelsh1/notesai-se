@@ -12,6 +12,7 @@
 - Use Testing Library for UI.
 - Mock LM Studio and IPC boundaries.
 - Vitest excludes Playwright specs (`tests/playwright/**`) from unit runs.
+- Editor unit tests cover render, toolbar, and slash menu basics.
 
 ## Lint & Format Gate
 
