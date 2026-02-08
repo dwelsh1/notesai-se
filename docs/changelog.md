@@ -16,3 +16,4 @@ The format follows Keep a Changelog and Semantic Versioning.
 - Added internal API documentation stub.
 - Added Phase 1 page tree UI, search, favorites, trash, and shortcuts.
 - Added Phase 2 tiptap editor, toolbar, slash menu, and tests.
+- Suppressed Electron security warning (dev-only) and React Router future warnings.

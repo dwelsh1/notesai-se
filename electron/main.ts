@@ -3,6 +3,9 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const isDev = !app.isPackaged
+if (isDev) {
+  process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true'
+}
 const shouldOpenDevTools = isDev && process.env.E2E !== 'true'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -13,7 +16,7 @@ const createWindow = () => {
     width: 1200,
     height: 800,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, 'preload.cjs'),
     },
   })
 
