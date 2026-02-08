@@ -4,7 +4,17 @@
 [![Unit Tests](https://github.com/dwelsh1/notesai-se/actions/workflows/ci.yml/badge.svg?branch=main&label=unit)](https://github.com/dwelsh1/notesai-se/actions/workflows/ci.yml)
 [![E2E Browser](https://github.com/dwelsh1/notesai-se/actions/workflows/ci.yml/badge.svg?branch=main&label=e2e-browser)](https://github.com/dwelsh1/notesai-se/actions/workflows/ci.yml)
 [![E2E Electron](https://github.com/dwelsh1/notesai-se/actions/workflows/ci.yml/badge.svg?branch=main&label=e2e-electron)](https://github.com/dwelsh1/notesai-se/actions/workflows/ci.yml)
+[![Version](https://img.shields.io/github/package-json/v/dwelsh1/notesai-se?label=version)](https://github.com/dwelsh1/notesai-se/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-7.2-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Electron](https://img.shields.io/badge/Electron-39-47848F?logo=electron&logoColor=white)](https://www.electronjs.org/)
+[![Playwright](https://img.shields.io/badge/Playwright-1.58-2EAD33?logo=playwright&logoColor=white)](https://playwright.dev/)
+[![tiptap](https://img.shields.io/badge/tiptap-2-000000?logo=prosemirror&logoColor=white)](https://tiptap.dev/)
+[![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-LTS-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 
 NotesAI SE is a simplified, local-only NotesAI variant focused on privacy.
 It uses a markdown editor (tiptap) with a top toolbar, slash commands, and AI
