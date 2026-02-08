@@ -1,8 +1,6 @@
 # NotesAI SE
 
-[![Unit Tests](https://github.com/dwelsh1/notesai-se/actions/workflows/ci.yml/badge.svg?branch=main&job=unit)](https://github.com/dwelsh1/notesai-se/actions/workflows/ci.yml)
-[![E2E Browser](https://github.com/dwelsh1/notesai-se/actions/workflows/ci.yml/badge.svg?branch=main&job=e2e-browser)](https://github.com/dwelsh1/notesai-se/actions/workflows/ci.yml)
-[![E2E Electron](https://github.com/dwelsh1/notesai-se/actions/workflows/ci.yml/badge.svg?branch=main&job=e2e-electron)](https://github.com/dwelsh1/notesai-se/actions/workflows/ci.yml)
+[![CI](https://github.com/dwelsh1/notesai-se/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/dwelsh1/notesai-se/actions/workflows/ci.yml)
 [![Version](https://img.shields.io/github/package-json/v/dwelsh1/notesai-se?label=version)](https://github.com/dwelsh1/notesai-se/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
