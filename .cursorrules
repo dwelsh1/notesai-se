@@ -1,0 +1,50 @@
+You are working on NotesAI SE (Electron + React + Vite + TypeScript).
+Follow these rules unless explicitly told otherwise.
+
+General
+- Keep changes minimal and consistent with existing style.
+- Prefer small, focused components and modules.
+- Avoid introducing new dependencies without a clear need.
+- Update docs when behavior or setup changes.
+- Keep formatting consistent with Prettier; use ESLint to enforce code quality.
+
+TypeScript & React
+- Use strict typing; avoid `any` and unsafe casts.
+- Prefer functional components and hooks.
+- Keep state localized; use derived state where possible.
+- Avoid side effects in render; use `useEffect` only when needed.
+- Prefer CSS modules or scoped styles if adding new styles (match existing).
+
+Electron
+- Keep renderer and main responsibilities separated.
+- Avoid Node APIs in the renderer; use preload + IPC.
+- Validate and sanitize any IPC inputs.
+
+Vite
+- Keep config lean; avoid heavy plugins unless required.
+- Use absolute imports only if configured; otherwise keep relative.
+
+Testing (Required)
+- Write unit tests before or alongside implementation changes.
+- Use Testing Library for UI units; focus on behavior over implementation.
+- Mock IPC and LM Studio HTTP boundaries in unit tests.
+- Keep tests deterministic and isolated; clean up any state.
+- Run `npm run lint` and `npm run format` before finalizing changes.
+
+E2E (Playwright)
+- Add E2E tests only after unit tests pass.
+- Prefer testing user flows (create/edit/search/backup/import-export).
+- Keep selectors resilient (data-testid where needed).
+
+SQLite & Migrations
+- Keep schema changes minimal and additive.
+- Add a migration for every schema change.
+- Avoid data loss migrations unless explicitly approved.
+
+AI Integration
+- Assume LM Studio is local-only; keep endpoints configurable.
+- Add timeouts and graceful error handling for AI calls.
+
+Commits & PRs
+- Use semantic commit messages (feat/fix/chore/docs/test/refactor).
+- Create branches and PRs using GitHub CLI (`gh`).
