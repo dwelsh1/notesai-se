@@ -54,6 +54,9 @@ vite.config.ts         # Vite + Vitest config
 | `npm run build` | Builds the renderer (Vite) |
 | `npm run build:electron:main` | Builds Electron main/preload |
 | `npm run build:electron` | Builds Electron main + renderer |
+| `npm run start:desktop` | Starts the desktop app (PowerShell) |
+| `npm run start:desktop:rebuild` | Rebuilds native modules, then starts the desktop app |
+| `npm run stop:desktop` | Stops Electron and Node processes |
 | `Ctrl + C` | Stops the running dev process in the current terminal |
 | `taskkill /F /IM electron.exe` | Force-close Electron if it hangs |
 
