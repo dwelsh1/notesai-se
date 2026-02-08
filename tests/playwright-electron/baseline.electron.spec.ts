@@ -3,9 +3,13 @@ import { appSelectors } from '../selectors/app'
 import { dashboardSelectors } from '../selectors/dashboard'
 import { settingsSelectors } from '../selectors/settings'
 
+const electronArgs = process.env.CI
+  ? ['dist-electron/main.js', '--no-sandbox', '--disable-setuid-sandbox']
+  : ['dist-electron/main.js']
+
 test('electron app boots to dashboard with empty state @smoke @electron', async () => {
   const electronApp = await electron.launch({
-    args: ['dist-electron/main.js'],
+    args: electronArgs,
     env: { ...process.env, E2E: 'true' },
   })
   const page = await electronApp.firstWindow()
@@ -22,7 +26,7 @@ test('electron app boots to dashboard with empty state @smoke @electron', async 
 
 test('electron app can reach settings @smoke @electron', async () => {
   const electronApp = await electron.launch({
-    args: ['dist-electron/main.js'],
+    args: electronArgs,
     env: { ...process.env, E2E: 'true' },
   })
   const page = await electronApp.firstWindow()
