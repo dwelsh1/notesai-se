@@ -1,5 +1,11 @@
 # NotesAI SE
 
+[![CI](https://github.com/dwelsh1/notesai-se/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/dwelsh1/notesai-se/actions/workflows/ci.yml)
+[![Unit Tests](https://github.com/dwelsh1/notesai-se/actions/workflows/ci.yml/badge.svg?branch=main&label=unit)](https://github.com/dwelsh1/notesai-se/actions/workflows/ci.yml)
+[![E2E Browser](https://github.com/dwelsh1/notesai-se/actions/workflows/ci.yml/badge.svg?branch=main&label=e2e-browser)](https://github.com/dwelsh1/notesai-se/actions/workflows/ci.yml)
+[![E2E Electron](https://github.com/dwelsh1/notesai-se/actions/workflows/ci.yml/badge.svg?branch=main&label=e2e-electron)](https://github.com/dwelsh1/notesai-se/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 NotesAI SE is a simplified, local-only NotesAI variant focused on privacy.
 It uses a markdown editor (tiptap) with a top toolbar, slash commands, and AI
 integration via LM Studio over local HTTP. Electron-only runtime.
