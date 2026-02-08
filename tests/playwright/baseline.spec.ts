@@ -13,7 +13,8 @@ test('app boots to dashboard with empty state @smoke', async ({ page, gotoApp })
 })
 
 test('settings page is reachable @smoke', async ({ page }) => {
-  await page.goto('/settings')
+  await page.goto('http://localhost:5173/settings')
+  await page.waitForSelector(settingsSelectors.title, { timeout: 15_000 })
 
   await expect(page.locator(settingsSelectors.title)).toHaveText('Settings')
 })

@@ -14,3 +14,5 @@ The format follows Keep a Changelog and Semantic Versioning.
 - Added Playwright Electron test config and baseline tests.
 - Switched Electron build to NodeNext ESM for Playwright Electron support.
 - Added internal API documentation stub.
+- Added Phase 1 page tree UI, search, favorites, trash, and shortcuts.
+- Added Phase 2 tiptap editor, toolbar, slash menu, and tests.

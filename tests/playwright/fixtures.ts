@@ -5,7 +5,17 @@ export const test = base.extend<{
 }>({
   gotoApp: async ({ page }, use) => {
     await use(async () => {
-      await page.goto('/')
+      page.on('pageerror', (error) => {
+        console.error('Page error:', error.message)
+      })
+      page.on('console', (message) => {
+        if (message.type() === 'error') {
+          console.error('Console error:', message.text())
+        }
+      })
+      await page.goto('http://localhost:5173/')
+      await page.waitForLoadState('domcontentloaded')
+      await page.waitForSelector('[data-testid="app-shell"]', { timeout: 15_000 })
     })
   },
 })
