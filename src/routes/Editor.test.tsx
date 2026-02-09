@@ -2,6 +2,7 @@ import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { PagesProvider } from '../state/pagesContext'
+import { TabsProvider } from '../state/tabsContext'
 import { Editor } from './Editor'
 import type { Page } from '../storage/storage'
 
@@ -20,11 +21,13 @@ const page: Page = {
 function renderEditor() {
   render(
     <PagesProvider initialPages={[page]}>
-      <MemoryRouter initialEntries={[`/page/${page.id}`]}>
-        <Routes>
-          <Route path="page/:id" element={<Editor />} />
-        </Routes>
-      </MemoryRouter>
+      <TabsProvider persist={false}>
+        <MemoryRouter initialEntries={[`/page/${page.id}`]}>
+          <Routes>
+            <Route path="page/:id" element={<Editor />} />
+          </Routes>
+        </MemoryRouter>
+      </TabsProvider>
     </PagesProvider>,
   )
 }

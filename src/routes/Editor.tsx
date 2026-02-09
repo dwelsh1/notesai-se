@@ -1,8 +1,9 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { usePages } from '../state/pagesContext'
+import { useTabs } from '../state/tabsContext'
 
 const slashCommands = [
   { id: 'heading-1', label: 'Heading 1' },
@@ -65,8 +66,15 @@ function EditorToolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
 export function Editor() {
   const { id } = useParams()
   const { pages } = usePages()
+  const { openTab } = useTabs()
   const page = pages.find((item) => item.id === id)
   const [isSlashOpen, setIsSlashOpen] = useState(false)
+
+  useEffect(() => {
+    if (id) {
+      openTab(id)
+    }
+  }, [id, openTab])
 
   const content = useMemo(() => page?.contentMarkdown || 'Type / for commands', [page])
 

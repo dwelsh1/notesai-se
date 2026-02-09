@@ -80,7 +80,73 @@
 
 .app-main {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.app-content {
+  flex: 1;
   padding: 24px;
+}
+
+.tabs-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 24px;
+  border-bottom: 1px solid #202733;
+  background: #0f1216;
+  align-items: center;
+}
+
+.tabs-bar__empty {
+  color: #9aa4b2;
+  font-size: 0.9rem;
+}
+
+.tabs-bar__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid #2b3545;
+  background: #151a21;
+}
+
+.tabs-bar__tab--active {
+  border-color: #3a465a;
+  background: #1b2430;
+}
+
+.tabs-bar__label {
+  border: none;
+  background: transparent;
+  color: #e6e9ef;
+  cursor: pointer;
+}
+
+.tabs-bar__action {
+  border: none;
+  background: transparent;
+  color: #9aa4b2;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.dashboard-grid {
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.dashboard-card {
+  border: 1px solid #2b3545;
+  border-radius: 8px;
+  padding: 12px;
+  background: #0f1216;
 }
 
 .editor-toolbar {
