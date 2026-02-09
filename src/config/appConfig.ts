@@ -1,12 +1,14 @@
 export type AppConfig = {
   aiEndpoint: string
   aiModel: string
+  aiTemperature: number
   theme: 'light' | 'dark'
 }
 
 export const defaultConfig: AppConfig = {
   aiEndpoint: 'http://localhost:1234/v1',
   aiModel: 'llama-3.1-8b-instruct',
+  aiTemperature: 0.2,
   theme: 'dark',
 }
 

@@ -4,6 +4,9 @@ import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { usePages } from '../state/pagesContext'
 import { useTabs } from '../state/tabsContext'
+import { buildChatPayload } from '../services/aiPrompt'
+import { createLmStudioClient } from '../services/aiClient'
+import { loadConfig } from '../config/appConfig'
 
 const slashCommands = [
   { id: 'heading-1', label: 'Heading 1' },
@@ -69,6 +72,11 @@ export function Editor() {
   const { openTab } = useTabs()
   const page = pages.find((item) => item.id === id)
   const [isSlashOpen, setIsSlashOpen] = useState(false)
+  const [isAiOpen, setIsAiOpen] = useState(false)
+  const [aiInstruction, setAiInstruction] = useState('')
+  const [aiResponse, setAiResponse] = useState('')
+  const [aiError, setAiError] = useState('')
+  const [aiLoading, setAiLoading] = useState(false)
 
   useEffect(() => {
     if (id) {
@@ -110,11 +118,64 @@ export function Editor() {
         editor.chain().focus().toggleCodeBlock().run()
         break
       case 'ai-command':
-        editor.chain().focus().insertContent('AI: ').run()
+        setIsAiOpen(true)
         break
     }
 
     setIsSlashOpen(false)
+  }
+
+  const handleRunAi = async () => {
+    if (!page) {
+      return
+    }
+
+    const instruction = aiInstruction.trim()
+    if (!instruction) {
+      setAiError('Enter an instruction for the AI.')
+      return
+    }
+
+    setAiError('')
+    setAiResponse('')
+    setAiLoading(true)
+
+    try {
+      const selection =
+        editor && editor.state.selection.from !== editor.state.selection.to
+          ? editor.state.doc.textBetween(
+              editor.state.selection.from,
+              editor.state.selection.to,
+              '\n',
+            )
+          : undefined
+
+      const config = loadConfig()
+      const payload = buildChatPayload({
+        instruction,
+        pageTitle: page.title,
+        pageContent: page.contentMarkdown,
+        selection,
+      })
+      const client = createLmStudioClient({ baseUrl: config.aiEndpoint })
+      const result = await client.completeChat({
+        model: config.aiModel,
+        temperature: config.aiTemperature,
+        messages: payload.messages,
+      })
+
+      setAiResponse(result.content || '(no response)')
+    } catch (error) {
+      setAiError((error as Error).message)
+    } finally {
+      setAiLoading(false)
+    }
+  }
+
+  const handleInsertAi = () => {
+    if (editor && aiResponse) {
+      editor.chain().focus().insertContent(aiResponse).run()
+    }
   }
 
   return (
@@ -147,6 +208,39 @@ export function Editor() {
                     {command.label}
                   </button>
                 ))}
+              </div>
+            )}
+          </div>
+          <div className="ai-panel">
+            <button type="button" onClick={() => setIsAiOpen((prev) => !prev)}>
+              {isAiOpen ? 'Close AI' : 'Open AI'}
+            </button>
+            {isAiOpen && (
+              <div className="ai-panel__body" data-testid="ai-panel">
+                <label>
+                  Instruction
+                  <textarea
+                    data-testid="ai-instruction"
+                    value={aiInstruction}
+                    onChange={(event) => setAiInstruction(event.target.value)}
+                    placeholder="Summarize this page"
+                  />
+                </label>
+                <div className="ai-panel__actions">
+                  <button type="button" onClick={handleRunAi} disabled={aiLoading}>
+                    {aiLoading ? 'Running...' : 'Run AI'}
+                  </button>
+                  <button type="button" onClick={handleInsertAi} disabled={!aiResponse}>
+                    Insert into editor
+                  </button>
+                </div>
+                {aiError && <p data-testid="ai-error">{aiError}</p>}
+                {aiResponse && (
+                  <div data-testid="ai-response">
+                    <strong>Response</strong>
+                    <p>{aiResponse}</p>
+                  </div>
+                )}
               </div>
             )}
           </div>

@@ -14,4 +14,9 @@ describe('appConfig', () => {
     saveConfig({ ...defaultConfig, theme: 'light' })
     expect(loadConfig().theme).toBe('light')
   })
+
+  it('persists ai temperature', () => {
+    saveConfig({ ...defaultConfig, aiTemperature: 0.5 })
+    expect(loadConfig().aiTemperature).toBe(0.5)
+  })
 })
