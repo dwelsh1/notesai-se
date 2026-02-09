@@ -18,3 +18,5 @@ The format follows Keep a Changelog and Semantic Versioning.
 - Added Phase 2 tiptap editor, toolbar, slash menu, and tests.
 - Suppressed Electron security warning (dev-only) and React Router future warnings.
 - Started Phase 3 with tabs state, tabs bar, and dashboard data.
+- Started Phase 4 with import/export and backup policy unit tests.
+- Added settings UI stubs for import/export and backups.

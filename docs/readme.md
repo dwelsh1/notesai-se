@@ -22,7 +22,8 @@ integration via LM Studio over local HTTP.
 
 ## Status
 
-Planning phase. See `docs/notesAI_se-plan.md`.
+Phases 1–4 are in progress (UI + tests for page tree, editor, tabs, dashboard,
+and import/export/backup stubs). See `docs/notesAI_se-plan.md`.
 
 ## Quality
 
