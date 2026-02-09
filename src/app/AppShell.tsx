@@ -2,6 +2,8 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { Sidebar } from './Sidebar'
 import { PagesProvider, usePages } from '../state/pagesContext'
+import { TabsProvider } from '../state/tabsContext'
+import { TabsBar } from './TabsBar'
 
 function AppShellContent() {
   const { createPage } = usePages()
@@ -29,7 +31,10 @@ function AppShellContent() {
     <div className="app-shell" data-testid="app-shell">
       <Sidebar />
       <main className="app-main">
-        <Outlet />
+        <TabsBar />
+        <div className="app-content">
+          <Outlet />
+        </div>
       </main>
     </div>
   )
@@ -38,7 +43,9 @@ function AppShellContent() {
 export function AppShell() {
   return (
     <PagesProvider>
-      <AppShellContent />
+      <TabsProvider>
+        <AppShellContent />
+      </TabsProvider>
     </PagesProvider>
   )
 }
