@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { usePages } from '../state/pagesContext'
 import {
   exportPagesToHtml,
@@ -9,6 +9,7 @@ import {
   importMarkdown,
 } from '../services/importExport'
 import { getNextBackupAt } from '../services/backupPolicy'
+import { defaultConfig, loadConfig, saveConfig } from '../config/appConfig'
 
 type ScheduleMode = 'manual' | 'daily' | 'weekly'
 
@@ -17,6 +18,10 @@ export function Settings() {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [importStatus, setImportStatus] = useState('')
   const [exportStatus, setExportStatus] = useState('')
+  const [aiEndpoint, setAiEndpoint] = useState(defaultConfig.aiEndpoint)
+  const [aiModel, setAiModel] = useState(defaultConfig.aiModel)
+  const [aiTemperature, setAiTemperature] = useState(defaultConfig.aiTemperature)
+  const [aiStatus, setAiStatus] = useState('')
   const [scheduleMode, setScheduleMode] = useState<ScheduleMode>('manual')
   const [scheduleHour, setScheduleHour] = useState(2)
   const [scheduleDay, setScheduleDay] = useState(1)
@@ -27,6 +32,13 @@ export function Settings() {
     () => pages.filter((page) => selectedIds.has(page.id)),
     [pages, selectedIds],
   )
+
+  useEffect(() => {
+    const config = loadConfig()
+    setAiEndpoint(config.aiEndpoint)
+    setAiModel(config.aiModel)
+    setAiTemperature(config.aiTemperature)
+  }, [])
 
   const nextBackupAt = useMemo(() => {
     if (scheduleMode === 'manual') {
@@ -107,6 +119,16 @@ export function Settings() {
     }
     download(`notesai-backup-${timestamp}.json`, JSON.stringify(payload, null, 2), 'application/json')
     setExportStatus('Backup exported (JSON stub).')
+  }
+
+  const saveAiSettings = () => {
+    saveConfig({
+      ...loadConfig(),
+      aiEndpoint: aiEndpoint.trim() || defaultConfig.aiEndpoint,
+      aiModel: aiModel.trim() || defaultConfig.aiModel,
+      aiTemperature,
+    })
+    setAiStatus('AI settings saved.')
   }
 
   return (
@@ -236,6 +258,43 @@ export function Settings() {
             Retention: keep {maxBackups} backup(s)
             {maxAgeDays ? `, max age ${maxAgeDays} days` : ''}.
           </p>
+        </div>
+
+        <div className="settings-card" data-testid="settings-ai">
+          <h2>AI (LM Studio)</h2>
+          <label className="settings-field">
+            Endpoint
+            <input
+              type="url"
+              value={aiEndpoint}
+              onChange={(event) => setAiEndpoint(event.target.value)}
+              placeholder="http://localhost:1234/v1"
+            />
+          </label>
+          <label className="settings-field">
+            Model
+            <input
+              type="text"
+              value={aiModel}
+              onChange={(event) => setAiModel(event.target.value)}
+              placeholder="llama-3.1-8b-instruct"
+            />
+          </label>
+          <label className="settings-field">
+            Temperature
+            <input
+              type="number"
+              min={0}
+              max={2}
+              step={0.1}
+              value={aiTemperature}
+              onChange={(event) => setAiTemperature(Number(event.target.value))}
+            />
+          </label>
+          <button type="button" onClick={saveAiSettings}>
+            Save AI Settings
+          </button>
+          {aiStatus && <p data-testid="ai-status">{aiStatus}</p>}
         </div>
       </div>
     </section>

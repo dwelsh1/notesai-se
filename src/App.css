@@ -198,6 +198,37 @@
   position: relative;
 }
 
+.ai-panel {
+  margin-top: 16px;
+  display: grid;
+  gap: 8px;
+}
+
+.ai-panel__body {
+  border: 1px solid #2b3545;
+  border-radius: 8px;
+  padding: 12px;
+  background: #0f1216;
+  display: grid;
+  gap: 10px;
+}
+
+.ai-panel__body textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #2b3545;
+  background: #0f1216;
+  color: #e6e9ef;
+}
+
+.ai-panel__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .editor-shell .ProseMirror {
   min-height: 240px;
   padding: 12px;

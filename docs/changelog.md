@@ -20,3 +20,6 @@ The format follows Keep a Changelog and Semantic Versioning.
 - Started Phase 3 with tabs state, tabs bar, and dashboard data.
 - Started Phase 4 with import/export and backup policy unit tests.
 - Added settings UI stubs for import/export and backups.
+- Started Phase 5 with LM Studio client and prompt builder tests.
+- Added AI settings and editor panel stubs.
+- Added Playwright Phase 5 AI panel coverage (mocked).
