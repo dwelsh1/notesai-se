@@ -149,6 +149,44 @@
   background: #0f1216;
 }
 
+.settings-grid {
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.settings-card {
+  border: 1px solid #2b3545;
+  border-radius: 8px;
+  padding: 12px;
+  background: #0f1216;
+  display: grid;
+  gap: 12px;
+}
+
+.settings-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.settings-list {
+  display: grid;
+  gap: 6px;
+}
+
+.settings-checkbox {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.settings-field {
+  display: grid;
+  gap: 6px;
+}
+
 .editor-toolbar {
   display: flex;
   gap: 8px;

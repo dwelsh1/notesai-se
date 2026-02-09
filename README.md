@@ -89,4 +89,4 @@ vite.config.ts         # Vite + Vitest config
 
 ## Status
 
-Phase 0 complete.
+Phases 1–4 are in progress (page tree, editor, tabs, dashboard, import/export, backups stubs).

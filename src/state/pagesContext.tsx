@@ -4,6 +4,7 @@ import type { Page } from '../storage/storage'
 type PagesContextValue = {
   pages: Page[]
   createPage: (title?: string) => Page
+  addPages: (pages: Page[]) => void
   renamePage: (id: string, title: string) => void
   toggleFavorite: (id: string) => void
   trashPage: (id: string) => void
@@ -48,6 +49,23 @@ export function PagesProvider({
     [pages.length],
   )
 
+  const addPages = useCallback((incomingPages: Page[]) => {
+    if (incomingPages.length === 0) {
+      return
+    }
+
+    setPages((prev) => {
+      const next = [...prev]
+      const existingIds = new Set(prev.map((page) => page.id))
+      for (const page of incomingPages) {
+        if (!existingIds.has(page.id)) {
+          next.push({ ...page, order: next.length })
+        }
+      }
+      return next
+    })
+  }, [])
+
   const renamePage = useCallback((id: string, title: string) => {
     const nextTitle = title.trim() || 'Untitled'
     const now = new Date().toISOString()
@@ -84,8 +102,8 @@ export function PagesProvider({
   }, [])
 
   const value = useMemo(
-    () => ({ pages, createPage, renamePage, toggleFavorite, trashPage, restorePage }),
-    [pages, createPage, renamePage, toggleFavorite, trashPage, restorePage],
+    () => ({ pages, createPage, addPages, renamePage, toggleFavorite, trashPage, restorePage }),
+    [pages, createPage, addPages, renamePage, toggleFavorite, trashPage, restorePage],
   )
 
   return <PagesContext.Provider value={value}>{children}</PagesContext.Provider>
