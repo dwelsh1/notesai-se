@@ -8,6 +8,7 @@ export type Page = {
   favorited: boolean
   parentId: string | null
   order: number
+  favoriteOrder: number | null
 }
 
 export interface StorageAdapter {

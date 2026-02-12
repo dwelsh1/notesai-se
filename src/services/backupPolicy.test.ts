@@ -24,7 +24,11 @@ describe('backupPolicy', () => {
       },
     ]
 
-    const result = applyRetention(backups, { maxBackups: 2, maxAgeDays: 30 }, new Date('2026-02-08T12:00:00.000Z'))
+    const result = applyRetention(
+      backups,
+      { maxBackups: 2, maxAgeDays: 30 },
+      new Date('2026-02-08T12:00:00.000Z'),
+    )
     expect(result.keep).toHaveLength(2)
     expect(result.purge).toHaveLength(1)
     expect(result.purge[0].id).toBe('b3')

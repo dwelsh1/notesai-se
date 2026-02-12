@@ -54,7 +54,7 @@ function loadTabsState(storageKey: string): TabsState | null {
     const normalizedTabs = normalizeTabs(parsed.tabs)
     const activeTabId = normalizedTabs.some((tab) => tab.id === parsed.activeTabId)
       ? parsed.activeTabId
-      : normalizedTabs[0]?.id ?? null
+      : (normalizedTabs[0]?.id ?? null)
 
     return { tabs: normalizedTabs, activeTabId }
   } catch {
@@ -104,44 +104,49 @@ export function TabsProvider({
     window.localStorage.setItem(storageKey, JSON.stringify(payload))
   }, [activeTabId, persist, storageKey, tabs])
 
-  const openTab = useCallback((pageId: string) => {
-    const now = new Date().toISOString()
-    let createdTab: Tab | undefined
+  const openTab = useCallback(
+    (pageId: string) => {
+      const now = new Date().toISOString()
+      let createdTab: Tab | undefined
 
-    setTabs((prev) => {
-      const existing = prev.find((tab) => tab.pageId === pageId)
-      if (existing) {
-        createdTab = { ...existing, lastActiveAt: now }
-        return normalizeTabs(
-          prev.map((tab) => (tab.id === existing.id ? createdTab ?? tab : tab)),
-        )
-      }
+      setTabs((prev) => {
+        const existing = prev.find((tab) => tab.pageId === pageId)
+        if (existing) {
+          createdTab = { ...existing, lastActiveAt: now }
+          return normalizeTabs(
+            prev.map((tab) => (tab.id === existing.id ? (createdTab ?? tab) : tab)),
+          )
+        }
 
-      createdTab = {
-        id: createId(),
-        pageId,
-        pinned: false,
-        lastActiveAt: now,
-        order: prev.length,
-      }
-      return normalizeTabs([...prev, createdTab])
-    })
+        createdTab = {
+          id: createId(),
+          pageId,
+          pinned: false,
+          lastActiveAt: now,
+          order: prev.length,
+        }
+        return normalizeTabs([...prev, createdTab])
+      })
 
-    setActiveTabId((prevActive) => {
-      if (createdTab) {
-        return createdTab.id
-      }
-      return prevActive
-    })
+      setActiveTabId((prevActive) => {
+        if (createdTab) {
+          return createdTab.id
+        }
+        return prevActive
+      })
 
-    return createdTab ?? {
-      id: createId(),
-      pageId,
-      pinned: false,
-      lastActiveAt: now,
-      order: tabs.length,
-    }
-  }, [tabs.length])
+      return (
+        createdTab ?? {
+          id: createId(),
+          pageId,
+          pinned: false,
+          lastActiveAt: now,
+          order: tabs.length,
+        }
+      )
+    },
+    [tabs.length],
+  )
 
   const closeTab = useCallback((tabId: string) => {
     setTabs((prev) => {
@@ -195,11 +200,7 @@ export function TabsProvider({
   const setActiveTab = useCallback((tabId: string) => {
     const now = new Date().toISOString()
     setTabs((prev) =>
-      normalizeTabs(
-        prev.map((tab) =>
-          tab.id === tabId ? { ...tab, lastActiveAt: now } : tab,
-        ),
-      ),
+      normalizeTabs(prev.map((tab) => (tab.id === tabId ? { ...tab, lastActiveAt: now } : tab))),
     )
     setActiveTabId(tabId)
   }, [])

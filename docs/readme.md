@@ -11,8 +11,8 @@ integration via LM Studio over local HTTP.
 - AI commands and chat panel (LM Studio HTTP)
 - Multi-tab editing with session restore and pinning
 - Slim dashboard (recent, favorites, stats)
-- Import/Export (Markdown, JSON, HTML)
-- Scheduled and manual backups
+- Import/Export (Markdown, JSON, HTML, PDF)
+- Scheduled and manual backups (including full backup as single ZIP)
 
 ## Non-Goals
 
@@ -22,8 +22,8 @@ integration via LM Studio over local HTTP.
 
 ## Status
 
-Phases 1–4 are in progress (UI + tests for page tree, editor, tabs, dashboard,
-and import/export/backup stubs). See `docs/notesAI_se-plan.md`.
+Phases 1–6 are in progress (UI + tests for core flows, import/export, AI, and
+QA polish). See `docs/notesAI_se-plan.md`.
 
 ## Quality
 

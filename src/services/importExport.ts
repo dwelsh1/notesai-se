@@ -24,12 +24,16 @@ function buildPage(overrides: Partial<Page>, order: number): Page {
     favorited: false,
     parentId: null,
     order,
+    favoriteOrder: null,
     ...overrides,
   }
 }
 
 function stripHtmlTags(value: string) {
-  return value.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim()
+  return value
+    .replace(/<[^>]*>/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
 }
 
 export function importMarkdown(markdown: string): ImportResult {
@@ -44,7 +48,7 @@ export function importMarkdown(markdown: string): ImportResult {
 
 export function importJson(json: string): ImportResult {
   const parsed = JSON.parse(json) as { pages?: Partial<Page>[] } | Partial<Page>[]
-  const pagesInput = Array.isArray(parsed) ? parsed : parsed.pages ?? []
+  const pagesInput = Array.isArray(parsed) ? parsed : (parsed.pages ?? [])
 
   const pages = pagesInput.map((page, index) =>
     buildPage(
@@ -106,10 +110,19 @@ export function exportPagesToMarkdown(pages: Page[]): string {
 }
 
 export function exportPagesToHtml(pages: Page[]): string {
-  return pages
-    .map((page) => {
-      const body = escapeHtml(page.contentMarkdown).replace(/\r?\n/g, '<br />')
-      return `<article><h1>${escapeHtml(page.title)}</h1><p>${body}</p></article>`
-    })
-    .join('\n')
+  const style = `
+article { margin-bottom: 2em; padding-bottom: 1em; border-bottom: 1px solid #eee; }
+article:last-child { border-bottom: none; }
+article h1 { margin: 0 0 0.5em 0; font-size: 1.5em; }
+article .content { font-size: 1rem; line-height: 1.5; }
+article .content img { max-width: 100%; height: auto; }
+`.trim()
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"><style>${style}</style></head><body>
+${pages
+  .map(
+    (page) =>
+      `<article><h1>${escapeHtml(page.title || 'Untitled')}</h1><div class="content">${page.contentMarkdown || ''}</div></article>`,
+  )
+  .join('\n')}
+</body></html>`
 }

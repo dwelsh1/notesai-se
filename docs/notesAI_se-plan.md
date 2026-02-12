@@ -15,6 +15,14 @@ NotesAI SE is a simplified, local-only NotesAI variant focused on privacy. It ke
 - Full test discipline: unit tests first in each phase, then Playwright e2e.
 - Complete docs in `docs/` (readme, changelog, developer, architecture, testing).
 
+## Light/Dark Theme
+
+- **Overview**: Light/dark themes with instant toggle and persisted preference.
+- **Toggle**: Header sun/moon button and Settings -> General -> Theme.
+- **Behavior**: Apply immediately, persist to local storage, optional OS sync (future).
+- **Implementation**: Tailwind dark: classes and dark class on <html>; CSS variables for bg/text.
+- **Scope**: Global theme only; no per-page theme.
+
 ## Non-Goals
 
 - Block-based editing, BlockNote plugins, or rich block schemas.

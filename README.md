@@ -32,6 +32,10 @@ integration via LM Studio over local HTTP. Electron-only runtime.
 1. Install dependencies: `npm install`
 2. Run the app: `npm run dev:electron`
 
+**Semantic search**: Sparkles button in the sidebar or **Ctrl+Shift+K** (Windows/Linux) / **Cmd+Shift+K** (Mac).
+
+**AI Chat**: MessageCircle button in the sidebar or **Ctrl+Shift+C** (Windows/Linux) / **Cmd+Shift+C** (Mac). Chat with AI using your notes as context (LM Studio).
+
 ## Project Structure
 
 ```
@@ -47,46 +51,60 @@ vite.config.ts         # Vite + Vitest config
 
 ### App
 
-| Command | What it does |
-| --- | --- |
-| `npm run dev:electron` | Runs Vite dev server + Electron app |
-| `npm run dev` | Runs Vite dev server only |
-| `npm run build` | Builds the renderer (Vite) |
-| `npm run build:electron:main` | Builds Electron main/preload |
-| `npm run build:electron` | Builds Electron main + renderer |
-| `npm run start:desktop` | Starts the desktop app (PowerShell) |
+| Command                         | What it does                                         |
+| ------------------------------- | ---------------------------------------------------- |
+| `npm run build:electron`        | Builds Electron main/preload + the Vite renderer     |
+| `npm run start:desktop`         | Starts the desktop app (PowerShell)                  |
+| `npm run stop:desktop`          | Stops Electron and Node processes (PowerShell)       |
+| `npm run dev:electron`          | Runs Vite dev server + Electron app                  |
+| `npm run dev:start`             | Alias for `dev:electron`                             |
+| `npm run dev:stop`              | Alias for `stop:desktop`                             |
+| `npm run dev`                   | Runs Vite dev server only                            |
+| `npm run build`                 | Builds the renderer (Vite)                           |
+| `npm run build:electron:main`   | Builds Electron main/preload                         |
 | `npm run start:desktop:rebuild` | Rebuilds native modules, then starts the desktop app |
-| `npm run stop:desktop` | Stops Electron and Node processes |
-| `Ctrl + C` | Stops the running dev process in the current terminal |
-| `taskkill /F /IM electron.exe` | Force-close Electron if it hangs |
+| `taskkill /F /IM electron.exe`  | Force-close Electron if it hangs                     |
 
 ### Unit Tests
 
-| Command | What it does |
-| --- | --- |
-| `npm run test:unit` | Runs unit tests (Vitest) |
+| Command                      | What it does                  |
+| ---------------------------- | ----------------------------- |
+| `npm run test:unit`          | Runs unit tests (Vitest)      |
 | `npm run test:unit:coverage` | Runs unit tests with coverage |
 
 ### Playwright E2E
 
-| Command | What it does |
-| --- | --- |
-| `npx playwright install` | Installs Playwright browsers (one-time) |
-| `npm run test:e2e` | Runs Playwright E2E tests |
-| `npm run test:e2e:ui` | Runs Playwright in UI mode |
-| `npm run test:e2e:electron` | Runs Playwright E2E against Electron |
-| `npx playwright test -g @smoke` | Runs Playwright tests tagged `@smoke` |
+| Command                         | What it does                            |
+| ------------------------------- | --------------------------------------- |
+| `npx playwright install`        | Installs Playwright browsers (one-time) |
+| `npm run test:e2e`              | Runs Playwright E2E tests               |
+| `npm run test:e2e:ui`           | Runs Playwright in UI mode              |
+| `npm run test:e2e:electron`     | Runs Playwright E2E against Electron    |
+| `npm run test:e2e:report`       | Serves the Smart Reporter HTML (browser) for the last run |
+| `npx playwright test -g @smoke` | Runs Playwright tests tagged `@smoke`   |
+| `npx playwright test -g @ai`    | Runs AI-related E2E tests               |
+| `npx playwright test -g @data` | Data/import-export tests (see `docs/testing.md` for all tags) |
 
 ### Quality
 
-| Command | What it does |
-| --- | --- |
-| `npm run lint` | Runs ESLint |
-| `npm run lint:fix` | Fixes lint issues where possible |
-| `npm run format` | Checks formatting (Prettier) |
-| `npm run format:write` | Formats files with Prettier |
-
+| Command                | What it does                     |
+| ---------------------- | -------------------------------- |
+| `npm run lint`         | Runs ESLint                      |
+| `npm run lint:fix`     | Fixes lint issues where possible |
+| `npm run format`       | Checks formatting (Prettier)     |
+| `npm run format:write` | Formats files with Prettier      |
 
 ## Status
 
-Phases 1–4 are in progress (page tree, editor, tabs, dashboard, import/export, backups stubs).
+**Phase 6 (Polish + QA) — Nearly Complete**
+
+All core phases (1–6) are implemented:
+
+- ✅ Phase 1: Core navigation + page tree
+- ✅ Phase 2: Markdown editor + toolbar + slash menu
+- ✅ Phase 3: Tabs + dashboard
+- ✅ Phase 4: Import/export + backups (Markdown, JSON, HTML, PDF; toasts; backup as ZIP)
+- ✅ Phase 5: AI integration (LM Studio)
+- 🔄 Phase 6: Final polish, bug fixes, and refinements
+
+Remaining work: minor polish items and optimizations.

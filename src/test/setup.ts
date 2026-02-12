@@ -1,4 +1,37 @@
 import '@testing-library/jest-dom/vitest'
+import { vi } from 'vitest'
+import React from 'react'
+
+// Mock react-resizable-panels for tests (JSDOM doesn't support it well)
+vi.mock('react-resizable-panels', () => {
+  const Group = ({ children, className }: { children: React.ReactNode; className?: string }) =>
+    React.createElement('div', { className, 'data-testid': 'panel-group' }, children)
+
+  const Panel = ({ children, className }: { children: React.ReactNode; className?: string }) =>
+    React.createElement('div', { className, 'data-testid': 'panel' }, children)
+
+  const Separator = ({ className }: { className?: string }) =>
+    React.createElement('div', { className, 'data-testid': 'panel-separator' })
+
+  const usePanelRef = () => {
+    return React.createRef<{
+      getSize: () => { asPercentage: number; inPixels: number }
+      resize: (size: number | string) => void
+      collapse: () => void
+      expand: () => void
+      isCollapsed: () => boolean
+    }>()
+  }
+
+  return { Group, Panel, Separator, usePanelRef }
+})
+import { afterEach } from 'vitest'
+import { cleanup } from '@testing-library/react'
+
+// Cleanup after each test to prevent memory leaks
+afterEach(() => {
+  cleanup()
+})
 
 if (!document.elementFromPoint) {
   document.elementFromPoint = () => null
@@ -15,8 +48,8 @@ if (!Element.prototype.getClientRects) {
   Element.prototype.getClientRects = emptyRects
 }
 
-if (!Node.prototype.getClientRects) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+const nodeProto = Node.prototype as unknown as { getClientRects?: () => DOMRectList }
+if (!nodeProto.getClientRects) {
   ;(Node.prototype as any).getClientRects = emptyRects
 }
 
@@ -45,8 +78,8 @@ if (!Element.prototype.getBoundingClientRect) {
   Element.prototype.getBoundingClientRect = emptyRect
 }
 
-if (!Node.prototype.getBoundingClientRect) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+const nodeRectProto = Node.prototype as unknown as { getBoundingClientRect?: () => DOMRect }
+if (!nodeRectProto.getBoundingClientRect) {
   ;(Node.prototype as any).getBoundingClientRect = emptyRect
 }
 
@@ -61,3 +94,41 @@ if (!Text.prototype.getClientRects) {
 if (!Text.prototype.getBoundingClientRect) {
   Text.prototype.getBoundingClientRect = emptyRect
 }
+
+// Mock @dnd-kit for tests
+vi.mock('@dnd-kit/core', () => ({
+  DndContext: ({ children }: { children: React.ReactNode }) =>
+    React.createElement('div', {}, children),
+  DragOverlay: ({ children }: { children: React.ReactNode }) =>
+    React.createElement('div', {}, children),
+  closestCenter: vi.fn(),
+  PointerSensor: class PointerSensor {},
+  useSensor: vi.fn(() => ({})),
+  useSensors: vi.fn(() => []),
+  useDroppable: vi.fn(() => ({
+    setNodeRef: vi.fn(),
+    isOver: false,
+  })),
+}))
+
+vi.mock('@dnd-kit/sortable', () => ({
+  SortableContext: ({ children }: { children: React.ReactNode }) =>
+    React.createElement('div', {}, children),
+  verticalListSortingStrategy: {},
+  useSortable: () => ({
+    attributes: {},
+    listeners: {},
+    setNodeRef: (node: HTMLElement | null) => node,
+    transform: null,
+    transition: null,
+    isDragging: false,
+  }),
+}))
+
+vi.mock('@dnd-kit/utilities', () => ({
+  CSS: {
+    Transform: {
+      toString: () => '',
+    },
+  },
+}))

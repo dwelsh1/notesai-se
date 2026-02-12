@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { createMemoryStorage } from './memoryStorage'
-import { Page } from './storage'
+import type { Page } from './storage'
 
 const page: Page = {
   id: 'p1',

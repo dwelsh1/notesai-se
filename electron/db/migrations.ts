@@ -22,6 +22,7 @@ export const migrations: Migration[] = [
           createdAt TEXT NOT NULL,
           trashed INTEGER NOT NULL DEFAULT 0,
           favorited INTEGER NOT NULL DEFAULT 0,
+          favoriteOrder INTEGER,
           tags TEXT
         );
 
@@ -37,6 +38,37 @@ export const migrations: Migration[] = [
           key TEXT PRIMARY KEY,
           value TEXT NOT NULL
         );
+      `)
+    },
+  },
+  {
+    id: 2,
+    name: 'add_favorite_order',
+    run: (db) => {
+      // Add favoriteOrder column if it doesn't exist (for existing databases)
+      try {
+        // Check if column exists by trying to select it
+        db.prepare('SELECT favoriteOrder FROM pages LIMIT 1').get()
+      } catch {
+        // Column doesn't exist, add it
+        db.exec(`ALTER TABLE pages ADD COLUMN favoriteOrder INTEGER;`)
+      }
+    },
+  },
+  {
+    id: 3,
+    name: 'add_embeddings',
+    run: (db) => {
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS embeddings (
+          page_id TEXT PRIMARY KEY,
+          embedding TEXT NOT NULL,
+          text_hash TEXT NOT NULL,
+          created_at TEXT NOT NULL,
+          updated_at TEXT NOT NULL,
+          FOREIGN KEY (page_id) REFERENCES pages(id) ON DELETE CASCADE
+        );
+        CREATE INDEX IF NOT EXISTS idx_embeddings_page_id ON embeddings(page_id);
       `)
     },
   },

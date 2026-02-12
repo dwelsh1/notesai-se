@@ -65,7 +65,10 @@ function TabsHarness() {
 
 function readState() {
   const text = screen.getByTestId('tabs-state').textContent || '{}'
-  return JSON.parse(text) as { tabs: Array<{ id: string; pageId: string; pinned: boolean }>; activeTabId: string | null }
+  return JSON.parse(text) as {
+    tabs: Array<{ id: string; pageId: string; pinned: boolean }>
+    activeTabId: string | null
+  }
 }
 
 describe('TabsProvider', () => {

@@ -19,7 +19,8 @@ test('electron app boots to dashboard with empty state @smoke @electron', async 
   await expect(page.locator(appSelectors.appShell)).toBeVisible({ timeout: 20_000 })
   await expect(page.locator(appSelectors.sidebar)).toBeVisible()
   await expect(page.locator(dashboardSelectors.title)).toHaveText('Dashboard')
-  await expect(page.locator(appSelectors.sidebarEmpty)).toHaveText('No pages yet')
+  // App auto-creates a page if none exist, so check for page list instead
+  await expect(page.locator('[data-testid="page-list"]')).toBeVisible()
 
   await electronApp.close()
 })

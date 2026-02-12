@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from 'vitest'
-import { createLmStudioClient } from './aiClient'
+import { describe, it, expect, vi, afterEach } from 'vitest'
+import { createLmStudioClient, generateEmbedding } from './aiClient'
 
 describe('createLmStudioClient', () => {
   it('posts chat payload and returns content', async () => {
@@ -41,5 +41,51 @@ describe('createLmStudioClient', () => {
     ).rejects.toThrow('LM Studio error')
 
     vi.unstubAllGlobals()
+  })
+})
+
+describe('generateEmbedding', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
+
+  it('posts to embeddings endpoint and returns embedding array', async () => {
+    const embedding = [0.1, -0.2, 0.3]
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        data: [{ embedding }],
+      }),
+    })
+    vi.stubGlobal('fetch', fetchMock)
+
+    const result = await generateEmbedding(
+      { baseUrl: 'http://localhost:1234/v1', model: 'embed-model' },
+      'hello world',
+    )
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      'http://localhost:1234/v1/embeddings',
+      expect.objectContaining({
+        method: 'POST',
+        body: JSON.stringify({ model: 'embed-model', input: 'hello world' }),
+      }),
+    )
+    expect(result).toEqual(embedding)
+  })
+
+  it('throws on invalid response missing embedding array', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ data: [] }),
+    })
+    vi.stubGlobal('fetch', fetchMock)
+
+    await expect(
+      generateEmbedding(
+        { baseUrl: 'http://localhost:1234/v1', model: 'm' },
+        'text',
+      ),
+    ).rejects.toThrow('Invalid embeddings response')
   })
 })

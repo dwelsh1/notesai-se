@@ -7,7 +7,10 @@ import { Dashboard } from '../routes/Dashboard'
 describe('AppShell', () => {
   it('renders sidebar and dashboard', () => {
     render(
-      <MemoryRouter initialEntries={['/']}>
+      <MemoryRouter
+        initialEntries={['/']}
+        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+      >
         <Routes>
           <Route element={<AppShell />}>
             <Route index element={<Dashboard />} />
@@ -24,7 +27,10 @@ describe('AppShell', () => {
   it('creates a new page with Ctrl+N', async () => {
     const user = userEvent.setup()
     render(
-      <MemoryRouter initialEntries={['/']}>
+      <MemoryRouter
+        initialEntries={['/']}
+        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+      >
         <Routes>
           <Route element={<AppShell />}>
             <Route index element={<Dashboard />} />
@@ -38,13 +44,17 @@ describe('AppShell', () => {
       await user.keyboard('{Control>}n{/Control}')
     })
 
-    expect(await screen.findByText('Untitled')).toBeInTheDocument()
+    const untitledItems = await screen.findAllByText('Untitled')
+    expect(untitledItems.length).toBeGreaterThan(0)
   })
 
   it('focuses the search input with Ctrl+F', async () => {
     const user = userEvent.setup()
     render(
-      <MemoryRouter initialEntries={['/']}>
+      <MemoryRouter
+        initialEntries={['/']}
+        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+      >
         <Routes>
           <Route element={<AppShell />}>
             <Route index element={<Dashboard />} />

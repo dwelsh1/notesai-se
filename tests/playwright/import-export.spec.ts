@@ -1,10 +1,11 @@
-import { test, expect } from './fixtures'
-import { settingsSelectors } from '../selectors/settings'
+import { test, expect, editPageTitle, gotoSettingsData, waitForSavedAndPageLink } from './fixtures'
+import { settingsSelectors, toastSelectors } from '../selectors/settings'
 
-test('import markdown file into pages @phase4', async ({ page, gotoApp }) => {
+test('import markdown file into pages @data', async ({ page, gotoApp }) => {
   await gotoApp()
 
-  await page.getByRole('link', { name: /settings/i }).click()
+  await gotoSettingsData(page)
+  await page.locator(settingsSelectors.importTabButton).click()
   await expect(page.locator(settingsSelectors.importCard)).toBeVisible()
 
   const markdown = '# Imported Page\n\nHello world'
@@ -14,31 +15,36 @@ test('import markdown file into pages @phase4', async ({ page, gotoApp }) => {
     buffer: Buffer.from(markdown),
   })
 
-  await expect(page.locator(settingsSelectors.importStatus)).toContainText('Imported 1 page')
+  await expect(page.locator(settingsSelectors.importStatus)).toContainText('imported 1 page')
+  await expect(page.locator(toastSelectors.success)).toBeVisible()
+  await expect(page.locator(toastSelectors.message)).toContainText(/imported 1 page/i)
   await expect(page.getByTestId('page-list')).toContainText('Imported Page')
 })
 
-test('export selected pages and backup @phase4', async ({ page, gotoApp }) => {
+test('export selected pages and backup @data', async ({ page, gotoApp }) => {
   await gotoApp()
 
   await page.getByTestId('page-create').click()
-  await page.getByRole('button', { name: 'Rename page' }).click()
-  await page.getByTestId('page-title-input').fill('Export Me')
+  await editPageTitle(page, 'Export Me')
   await page.getByRole('button', { name: 'Save' }).click()
+  await waitForSavedAndPageLink(page)
 
-  await page.getByRole('link', { name: /settings/i }).click()
-
-  await page.getByLabel('Export Me').check()
+  await gotoSettingsData(page)
+  await page.locator(settingsSelectors.exportTabButton).click()
 
   const download = await Promise.all([
     page.waitForEvent('download'),
-    page.getByRole('button', { name: 'Export JSON' }).click(),
+    page.getByTestId('export-format-json').click(),
   ])
   expect(download[0].suggestedFilename()).toContain('notesai-pages')
+  await expect(page.getByTestId('toast-success').filter({ hasText: /Export succeeded/i })).toBeVisible()
 
+  // Navigate to Backup sub-tab
+  await page.locator(settingsSelectors.backupTabButton).click()
   const backupDownload = await Promise.all([
     page.waitForEvent('download'),
-    page.getByRole('button', { name: /Export Backup/i }).click(),
+    page.getByRole('button', { name: /Download.*Backup/ }).click(),
   ])
   expect(backupDownload[0].suggestedFilename()).toContain('notesai-backup')
+  await expect(page.getByTestId('toast-success').filter({ hasText: /Backup succeeded|Backup created/i })).toBeVisible()
 })

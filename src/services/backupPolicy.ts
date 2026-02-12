@@ -56,10 +56,7 @@ export function applyRetention(
   return { keep, purge }
 }
 
-export function getNextBackupAt(
-  now: Date,
-  schedule: BackupSchedule,
-): Date | null {
+export function getNextBackupAt(now: Date, schedule: BackupSchedule): Date | null {
   if (schedule.mode === 'manual') {
     return null
   }

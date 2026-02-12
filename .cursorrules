@@ -14,6 +14,8 @@ TypeScript & React
 - Keep state localized; use derived state where possible.
 - Avoid side effects in render; use `useEffect` only when needed.
 - Prefer CSS modules or scoped styles if adding new styles (match existing).
+- Add `title` tooltips to all buttons introduced in UI changes.
+- Always use icons from `lucide-react` library. Never use emoji or Unicode symbols for icons.
 
 Electron
 - Keep renderer and main responsibilities separated.

@@ -16,7 +16,16 @@ describe('appConfig', () => {
   })
 
   it('persists ai temperature', () => {
-    saveConfig({ ...defaultConfig, aiTemperature: 0.5 })
+    saveConfig({
+      ...defaultConfig,
+      aiTemperature: 0.5,
+      aiEnabled: true,
+      aiMaxTokens: 1000,
+      aiEmbeddingModel: '',
+      aiCodeModel: '',
+      aiChatModel: '',
+      customPrompts: {},
+    })
     expect(loadConfig().aiTemperature).toBe(0.5)
   })
 })
